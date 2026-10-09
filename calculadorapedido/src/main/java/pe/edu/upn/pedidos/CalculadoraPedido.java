@@ -8,6 +8,9 @@ public class CalculadoraPedido {
 
     private static final BigDecimal CIEN = new BigDecimal("100");
     private static final BigDecimal TASA_IGV = new BigDecimal("0.18");
+    private static final BigDecimal SIN_DESCUENTO = BigDecimal.ZERO;
+    private static final int DECIMALES = 2;
+    private static final RoundingMode REDONDEO = RoundingMode.HALF_UP;
 
     public BigDecimal calcularSubtotal(List<Producto> productos) {
         productos.forEach(this::validarProducto);
@@ -34,6 +37,10 @@ public class CalculadoraPedido {
         return redondear(baseImponible.add(igv));
     }
 
+    public BigDecimal calcularTotal(List<Producto> productos) {
+        return calcularTotal(productos, SIN_DESCUENTO);
+    }
+
     private void validarProducto(Producto producto) {
         if (producto.precio().compareTo(BigDecimal.ZERO) < 0) {
             throw new IllegalArgumentException("El precio no puede ser negativo");
@@ -54,10 +61,6 @@ public class CalculadoraPedido {
     }
 
     private BigDecimal redondear(BigDecimal monto) {
-        return monto.setScale(2, RoundingMode.HALF_UP);
-    }
-
-    public BigDecimal calcularTotal(List<Producto> productos) {
-        return calcularTotal(productos, BigDecimal.ZERO);
+        return monto.setScale(DECIMALES, REDONDEO);
     }
 }
