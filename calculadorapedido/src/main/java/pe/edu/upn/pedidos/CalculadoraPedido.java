@@ -9,7 +9,10 @@ public class CalculadoraPedido {
     private static final BigDecimal CIEN = new BigDecimal("100");
     private static final BigDecimal TASA_IGV = new BigDecimal("0.18");
 
+
+    
     public BigDecimal calcularSubtotal(List<Producto> productos) {
+        
         BigDecimal subtotal = productos.stream()
                 .map(this::importeDe)
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
