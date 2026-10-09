@@ -7,6 +7,8 @@ import java.util.List;
 public class CalculadoraPedido {
     
     private static final BigDecimal CIEN = new BigDecimal("100");
+    private static final BigDecimal TASA_IGV = new BigDecimal("0.18");
+
 
     public BigDecimal calcularSubtotal(List<Producto> productos) {
         return productos.stream()
@@ -16,7 +18,6 @@ public class CalculadoraPedido {
                 
     }
     
-
     public BigDecimal aplicarDescuento(BigDecimal subtotal, BigDecimal porcentaje) {
         BigDecimal montoDescuento = subtotal.multiply(porcentaje).divide(CIEN);
         return subtotal.subtract(montoDescuento).setScale(2, RoundingMode.HALF_UP);
@@ -25,5 +26,9 @@ public class CalculadoraPedido {
 
     private BigDecimal importeDe(Producto producto) {
         return producto.precio().multiply(BigDecimal.valueOf(producto.cantidad()));
+    }
+
+    public BigDecimal calcularImpuesto(BigDecimal baseImponible) {
+        return baseImponible.multiply(TASA_IGV).setScale(2, RoundingMode.HALF_UP);
     }
 }
