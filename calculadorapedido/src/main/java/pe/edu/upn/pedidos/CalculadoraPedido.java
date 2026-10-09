@@ -25,6 +25,11 @@ public class CalculadoraPedido {
         return redondear(baseImponible.multiply(TASA_IGV));
     }
 
+    public BigDecimal calcularTotal(List<Producto> productos, BigDecimal porcentaje) {
+        BigDecimal base = aplicarDescuento(calcularSubtotal(productos), porcentaje);
+        return base.add(calcularImpuesto(base)).setScale(2, RoundingMode.HALF_UP);
+    }
+
     private BigDecimal importeDe(Producto producto) {
         return producto.precio().multiply(BigDecimal.valueOf(producto.cantidad()));
     }
