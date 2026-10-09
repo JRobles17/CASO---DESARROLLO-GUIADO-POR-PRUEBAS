@@ -56,4 +56,8 @@ public class CalculadoraPedido {
     private BigDecimal redondear(BigDecimal monto) {
         return monto.setScale(2, RoundingMode.HALF_UP);
     }
+
+    public BigDecimal calcularTotal(List<Producto> productos) {
+        return calcularTotal(productos, BigDecimal.ZERO);
+    }
 }
