@@ -54,4 +54,16 @@ class CalculadoraPedidoTest {
     void calcularImpuestoAplica18PorCiento(BigDecimal baseImponible, BigDecimal igvEsperado) {
         assertEquals(igvEsperado, calc.calcularImpuesto(baseImponible));
     }
+
+    @Test
+    void totalConCuponDel10PorCientoEs106_20() {
+        List<Producto> productos = List.of(producto("Audifonos", "100.00", 1));
+        assertEquals(soles("106.20"), calc.calcularTotal(productos, soles("10")));
+    }
+
+    @Test
+    void totalRedondeaElIgvADosDecimales() {
+        List<Producto> productos = List.of(producto("Lapiz", "11.11", 3));
+        assertEquals(soles("39.33"), calc.calcularTotal(productos, BigDecimal.ZERO));
+    }
 }
