@@ -5,18 +5,23 @@ import java.math.RoundingMode;
 import java.util.List;
 
 public class CalculadoraPedido {
+    
+    private static final BigDecimal CIEN = new BigDecimal("100");
 
     public BigDecimal calcularSubtotal(List<Producto> productos) {
         return productos.stream()
                 .map(this::importeDe)
                 .reduce(BigDecimal.ZERO, BigDecimal::add)
                 .setScale(2, RoundingMode.HALF_UP);
+                
     }
+    
 
     public BigDecimal aplicarDescuento(BigDecimal subtotal, BigDecimal porcentaje) {
-        BigDecimal descuento = subtotal.multiply(porcentaje).divide(new BigDecimal("100"));
-        return subtotal.subtract(descuento).setScale(2, RoundingMode.HALF_UP);
+        BigDecimal montoDescuento = subtotal.multiply(porcentaje).divide(CIEN);
+        return subtotal.subtract(montoDescuento).setScale(2, RoundingMode.HALF_UP);
     }
+
 
     private BigDecimal importeDe(Producto producto) {
         return producto.precio().multiply(BigDecimal.valueOf(producto.cantidad()));
